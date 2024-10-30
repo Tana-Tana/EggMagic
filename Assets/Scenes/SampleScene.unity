@@ -396,8 +396,10 @@ GameObject:
   - component: {fileID: 632641234}
   - component: {fileID: 632641236}
   - component: {fileID: 632641235}
+  - component: {fileID: 632641237}
+  - component: {fileID: 632641238}
   m_Layer: 5
-  m_Name: Board
+  m_Name: Matrix
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -460,6 +462,46 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 632641233}
   m_CullTransparentMesh: 1
+--- !u!114 &632641237
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 632641233}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a8695521f0d02e499659fee002a26c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 16
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 0
+  m_StartCorner: 0
+  m_StartAxis: 0
+  m_CellSize: {x: 180, y: 200}
+  m_Spacing: {x: -4.5, y: -26}
+  m_Constraint: 1
+  m_ConstraintCount: 5
+--- !u!114 &632641238
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 632641233}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3c199c15adc1024a98785357f72132f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  oddGroundPrefab: {fileID: 8755570389059915034, guid: a6ee4faacc2e4e948bbc0f8fb3c21277, type: 3}
+  evenGroundPrefab: {fileID: 4811250932580226387, guid: 3d42392987f93e346aa8490bc36a1b60, type: 3}
+  column: 5
+  row: 5
 --- !u!1 &1862112934
 GameObject:
   m_ObjectHideFlags: 0
