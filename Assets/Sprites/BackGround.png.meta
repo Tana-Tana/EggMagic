@@ -1,10 +1,16 @@
 fileFormatVersion: 2
-guid: 7e5ed2f143d1606459ae3ffe642e660a
+guid: 86da6c31aec0b0a46bd0d3f412a3c038
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -6683464919086006272
-    second: Export_EX_0
+      213: 5683837952750094072
+    second: MenuBG
+  - first:
+      213: 294856615559730777
+    second: Export_EX 1_1
+  - first:
+      213: -5622379589460168221
+    second: GameplayBG
   externalObjects: {}
   serializedVersion: 12
   mipmaps:
@@ -37,7 +43,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -110,7 +116,7 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
-    buildTarget: WebGL
+    buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -123,7 +129,7 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
-    buildTarget: Android
+    buildTarget: WebGL
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -139,13 +145,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Export_EX_0
+      name: Export_EX 1_1
       rect:
         serializedVersion: 2
-        x: 3091
-        y: 2066
-        width: 1503
-        height: 653
+        x: 1542
+        y: 17
+        width: 1508
+        height: 2673
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -153,8 +159,50 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 000081d01109f33a0800000000000000
-      internalID: -6683464919086006272
+      spriteID: 9569c16978a871400800000000000000
+      internalID: 294856615559730777
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BackGroundHome
+      rect:
+        serializedVersion: 2
+        x: 27
+        y: 21
+        width: 1499
+        height: 2666
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 80444a87eff921b4180611efed1d1418
+      internalID: -1983160627
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BackGroundGamePlay
+      rect:
+        serializedVersion: 2
+        x: 3056
+        y: 17
+        width: 1499
+        height: 2673
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d670c73f7b0f3f14b96e5a5853597021
+      internalID: -1775382612
       vertices: []
       indices: 
       edges: []
@@ -170,7 +218,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Export_EX_0: -6683464919086006272
+      BackGroundGamePlay: -1775382612
+      BackGroundHome: -1983160627
+      Export_EX 1_1: 294856615559730777
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
