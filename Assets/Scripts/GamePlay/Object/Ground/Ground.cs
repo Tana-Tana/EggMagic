@@ -1,45 +1,43 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using Assets.Scripts.Common;
 using UnityEngine;
 
 public class Ground : MonoBehaviour
 {
-    [Header("----------Egg----------")]
-    [SerializeField] private bool checkHaveEgg;
-    [SerializeField] private int idEgg;
-    [SerializeField] private float offsetWhenSelecting;
+    [Header("----------Egg And Ground----------")]
+    [SerializeField] private Egg thisEgg;
+    public Egg ThisEgg {  get { return thisEgg; } set { thisEgg = value; } }
 
-    [Header("----------Status Ground----------")]
-    public bool isSelecting = false;
+    [SerializeField] private bool checkHaveEgg = true;
+    public bool CheckHaveEgg { get { return checkHaveEgg; } set { checkHaveEgg = value; } }
 
-    private void OnEnable()
-    {
-        Messenger.AddListener(EventKey.UnSelectionGround, UnSelectionGround);
-    }
+    [SerializeField] private string levelGround;
+    public string LevelGround { get { return levelGround; } set { levelGround = value; } }
 
-    private void OnDisable()
-    {
-        Messenger.RemoveListener(EventKey.UnSelectionGround, UnSelectionGround);
-    }
+    private Pair<int, int> _positionPair;
+    public Pair<int, int> PositionPair { get { return _positionPair; } set { _positionPair = value; } }
 
-    private void UnSelectionGround()
-    {
-        if(isSelecting == true)
-        {
-            transform.position -= Vector3.up * offsetWhenSelecting;
-            isSelecting = false;
-        }
-    }
+    public bool isSelected = false;
 
     public void OnClick()
     {
-        Messenger.Broadcast(EventKey.UnSelectionGround);
-        if(isSelecting == false)
+        if (!isSelected && !ObjectController.Instance.isPrepareMerge)  // bảng init
         {
-            transform.position += Vector3.up * offsetWhenSelecting;
-            isSelecting = true;
+            ObjectController.Instance.DoSomethingWithGroundIsSelected(levelGround, _positionPair);
+        }
+        else
+        {
+            if(!isSelected && ObjectController.Instance.isPrepareMerge) // đang có ô pending merge
+            {
+                ObjectController.Instance.SetInitGround();
+            }
+            else
+            {
+                if(isSelected)
+                {
+                    Debug.Log("Thực hiện merge");
+                    ObjectController.Instance.MergeEgg(_positionPair);
+                }
+            }
         }
     }
-
 }

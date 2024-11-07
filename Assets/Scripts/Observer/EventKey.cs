@@ -5,4 +5,8 @@
     ENDGAME,
     UPDATE_UI,
     UnSelectionGround,
+    GroundIsSelected,
+    InitPosionAllGround,
+    MergeEgg,
+    SetEggMatrix,
 }
