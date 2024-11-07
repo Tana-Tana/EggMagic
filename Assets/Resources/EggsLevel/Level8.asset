@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 86ad9a5ddb4b1b745a3640c60fc014ed, type: 3}
-  m_Name: 13
+  m_Name: Level8
   m_EditorClassIdentifier: 
-  icon: {fileID: -3380936338111721425, guid: fd7f427abb4ece2448755652792629b0, type: 3}
-  id: 13
-  thisAnimator: {fileID: 0}
+  avatar: {fileID: -8436040706800516304, guid: fd7f427abb4ece2448755652792629b0, type: 3}
+  idName: Level8
+  movement: {fileID: 0}
