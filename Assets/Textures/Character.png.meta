@@ -1299,13 +1299,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Export_EX 2_41
+      name: TimeBG
       rect:
         serializedVersion: 2
-        x: 2616
-        y: 3340
-        width: 745
-        height: 43
+        x: 2619
+        y: 3342
+        width: 741
+        height: 40
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1320,13 +1320,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Export_EX 2_42
+      name: TimeBGFull
       rect:
         serializedVersion: 2
-        x: 2616
-        y: 3296
-        width: 745
-        height: 41
+        x: 2619
+        y: 3298
+        width: 741
+        height: 39
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1593,7 +1593,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Export_EX 2_55
+      name: BasicAllLevel
       rect:
         serializedVersion: 2
         x: 4205
@@ -1656,13 +1656,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Export_EX 2_58
+      name: BackPoint_1-3
       rect:
         serializedVersion: 2
-        x: 4226
+        x: 4228
         y: 2426
-        width: 150
-        height: 151
+        width: 147
+        height: 146
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1735,111 +1735,6 @@ TextureImporter:
       bones: []
       spriteID: 4d98ab22ce821bfa0800000000000000
       internalID: -5786799051534333484
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Export_EX 2_67
-      rect:
-        serializedVersion: 2
-        x: 4098
-        y: 1933
-        width: 181
-        height: 202
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 17f2fd52c0092e550800000000000000
-      internalID: 6188667219809873777
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Export_EX 2_68
-      rect:
-        serializedVersion: 2
-        x: 4264
-        y: 1889
-        width: 283
-        height: 286
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 0f6ee448f53a72be0800000000000000
-      internalID: -1502052320067787024
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Export_EX 2_73
-      rect:
-        serializedVersion: 2
-        x: 4093
-        y: 1886
-        width: 227
-        height: 110
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: afedc91cabf763870800000000000000
-      internalID: 8662251373382655738
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Export_EX 2_74
-      rect:
-        serializedVersion: 2
-        x: 4108
-        y: 1767
-        width: 600
-        height: 122
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 8fe20298242278530800000000000000
-      internalID: 3857089275029892856
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Export_EX 2_75
-      rect:
-        serializedVersion: 2
-        x: 4493
-        y: 1886
-        width: 227
-        height: 105
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 56220205c844befc0800000000000000
-      internalID: -3464600118901071259
       vertices: []
       indices: 
       edges: []
@@ -2013,7 +1908,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Export_EX 2_87
+      name: BackPoint_10-12
       rect:
         serializedVersion: 2
         x: 4306
@@ -2160,7 +2055,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Export_EX 2_95
+      name: BackPoint_7-9
       rect:
         serializedVersion: 2
         x: 4564
@@ -2202,7 +2097,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Export_EX 2_97
+      name: BackPoint_4-6
       rect:
         serializedVersion: 2
         x: 4188
@@ -2349,7 +2244,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Export_EX 2_104
+      name: BackPoint_13
       rect:
         serializedVersion: 2
         x: 4533
@@ -2386,27 +2281,6 @@ TextureImporter:
       bones: []
       spriteID: b20eb69cb0220e443970cbda6038a970
       internalID: -745055587
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Export_EX 2_63
-      rect:
-        serializedVersion: 2
-        x: 4269
-        y: 2162
-        width: 278
-        height: 135
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: fe70046fba2abca438bddae455f27455
-      internalID: 1305640762
       vertices: []
       indices: 
       edges: []
@@ -2470,27 +2344,6 @@ TextureImporter:
       bones: []
       spriteID: 2385e0efcf33e7a469f17c754e4fa861
       internalID: -1167940436
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Export_EX 2_69
-      rect:
-        serializedVersion: 2
-        x: 4535
-        y: 1938
-        width: 178
-        height: 198
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: f2eda113934469b4898462c6e46330ed
-      internalID: 2067084364
       vertices: []
       indices: 
       edges: []
@@ -2642,6 +2495,27 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: BackPoint_14
+      rect:
+        serializedVersion: 2
+        x: 4090
+        y: 1771
+        width: 634
+        height: 519
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 946073eb931721a4a9e445700278e607
+      internalID: 118919278
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -2653,7 +2527,13 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Character_0: 424388203
+      BackPoint_1-3: -2339866867300759647
+      BackPoint_10-12: 7865848816412079582
+      BackPoint_13: -6889279743029327399
+      BackPoint_14: 424388203
+      BackPoint_4-6: 5052702232747324865
+      BackPoint_7-9: 1179662340166981003
+      BasicAllLevel: -2999472664641591430
       EvenBase: 87451063516225480
       EvenBaseBigger: -6489208316607118271
       Export_EX 2_0: -5654083910335648924
@@ -2663,7 +2543,6 @@ TextureImporter:
       Export_EX 2_101: 1025289364781847176
       Export_EX 2_102: -6337576069898346332
       Export_EX 2_103: 6590747716636116084
-      Export_EX 2_104: -6889279743029327399
       Export_EX 2_11: 8778518177927616428
       Export_EX 2_12: -3585154080034614059
       Export_EX 2_13: 6696981403406263006
@@ -2697,8 +2576,6 @@ TextureImporter:
       Export_EX 2_39: -2423820332183528106
       Export_EX 2_4: 657957993875678368
       Export_EX 2_40: -5780293465706991117
-      Export_EX 2_41: -2003886467919432504
-      Export_EX 2_42: -4611600600627847274
       Export_EX 2_43: 4692362411106730959
       Export_EX 2_44: -9019048165997604691
       Export_EX 2_45: -9157052970175788656
@@ -2708,10 +2585,8 @@ TextureImporter:
       Export_EX 2_52: 6634653254724577165
       Export_EX 2_53: -4298229928188435604
       Export_EX 2_54: 4490556423506988752
-      Export_EX 2_55: -2999472664641591430
       Export_EX 2_56: 4179021431674126914
       Export_EX 2_57: 5152777188444476876
-      Export_EX 2_58: -2339866867300759647
       Export_EX 2_59: 5691526597803455405
       Export_EX 2_6: 5161073051732390935
       Export_EX 2_60: -745055587
@@ -2743,7 +2618,6 @@ TextureImporter:
       Export_EX 2_84: -1716600406878007415
       Export_EX 2_85: 5674965279289390266
       Export_EX 2_86: 6837008696163517164
-      Export_EX 2_87: 7865848816412079582
       Export_EX 2_88: -9085690423495945483
       Export_EX 2_89: -3380936338111721425
       Export_EX 2_9: -5846542348037708189
@@ -2752,13 +2626,13 @@ TextureImporter:
       Export_EX 2_92: 8200037106617285390
       Export_EX 2_93: 1040281407643138468
       Export_EX 2_94: -8436040706800516304
-      Export_EX 2_95: 1179662340166981003
       Export_EX 2_96: -8954864689738556030
-      Export_EX 2_97: 5052702232747324865
       Export_EX 2_98: -5083556367466959581
       Export_EX 2_99: 4278598767083238147
       OddBase: -7142551042975681923
       OddBaseBigger: 953149398595585537
+      TimeBG: -2003886467919432504
+      TimeBGFull: -4611600600627847274
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
