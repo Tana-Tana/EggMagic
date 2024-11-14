@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Assets.Scripts.Common;
 using DG.Tweening;
+using UnityEditor.Build;
 using UnityEngine;
 
 public class ObjectController : Singleton<ObjectController>
@@ -15,26 +17,33 @@ public class ObjectController : Singleton<ObjectController>
     [SerializeField] private int row;
 
     private Ground[,] _ground;
-    private Egg[,] _egg;
 
     // BFS
     private int[] _x; // tọa độ x ô liền kề
     private int[] _y; // tọa độ y ô liền kề
     private bool[,] isVisited; // kiểm tra ô đã được duyệt hay chưa
+    private int[,] _numberArrMerge;
+    private List<Pair<Pair<int, int>, List<Pair<int, int>>>> _roadList;
     private Queue<Pair<int, int>> myQueue; // queue để duyệt BFS
-    private Stack<Pair<Pair<int, int>, Pair<int, int>>> myStack; // lưu đường đi
     private Color _colorHideAsset = new Color(1, 1, 1, 0);
+    private int _maxNumberMerge = -1;
 
     // CheckMerge
     public bool CheckMerge = false;
     public bool isPrepareMerge = false;
+    public bool isFinishMerge = true;
+    private bool[,] _checkHaveEgg; // lưu ô còn trứng
+    private int[] _amoutEggOfColumn;
+    //Pool
+    private List<Egg> _poolEgg;
 
     private void Start()
     {
         _x = new int[] { 0, 0, -1, 1 };
         _y = new int[] { -1, 1, 0, 0 };
         _ground = new Ground[row + 5, column + 5];
-        _egg = new Egg[row + 5, column + 5];
+        _poolEgg = new List<Egg>();
+        _checkHaveEgg = new bool[row + 5, column + 5];
         GenerateGroundAndEggOfGround();
     }
 
@@ -55,16 +64,15 @@ public class ObjectController : Singleton<ObjectController>
                 }
                 _ground[i, j].PositionPair = new Pair<int, int>(i, j);
                 _ground[i, j].ThisEgg.LoadInitEgg(); // Load level cho egg hiện tại
-                _egg[i, j] = _ground[i, j].ThisEgg; // Thiết lập thông tin của trứng tại đất hiện tại
                 //Debug.Log(_egg[i,j].IdName);
-                _ground[i, j].LevelGround = _egg[i, j].IdName; // thiết lập level của đất theo level của trứng
             }
         }
-    }
 
+    }
     public void SetInitGround()
     {
         isPrepareMerge = false;
+        CheckMerge = false;
         for (int i = 1; i <= row; ++i)
         {
             for (int j = 1; j <= column; ++j)
@@ -79,21 +87,19 @@ public class ObjectController : Singleton<ObjectController>
     }
 
 
-    public void DoSomethingWithGroundIsSelected(string levelGround, Pair<int, int> thisSelectedPosition)
+    public void DoSomethingWithGroundIsSelected(string idName, Pair<int, int> thisSelectedPosition)
     {
         CheckMerge = false;
-        isVisited = null;
         isVisited = new bool[row + 5, column + 5]; // đặt lại mảng cần duyệt
-        PickGroundWithTheSameLevelByBFS(levelGround, thisSelectedPosition);
+        PickGroundWithTheSameLevelByBFS(idName, thisSelectedPosition);
     }
 
-    private void PickGroundWithTheSameLevelByBFS(string levelGround, Pair<int, int> thisSelectedPosition)
+    private void PickGroundWithTheSameLevelByBFS(string idName, Pair<int, int> thisSelectedPosition)
     {
-        myQueue = null;
         myQueue = new Queue<Pair<int, int>>(); // tạo mới 1 queue chứa hàng và cột
         myQueue.Enqueue(thisSelectedPosition); // thêm ô hiện tại vào queue
         //Debug.Log("Ô duyệt bằng BFS có tọa độ: " + thisSelectedPosition.First + " " + thisSelectedPosition.Second);
-        //Debug.Log(levelGround);
+        //Debug.Log(idName);
 
         while (myQueue.Count > 0) // queue chưa rỗng
         {
@@ -107,13 +113,17 @@ public class ObjectController : Singleton<ObjectController>
                 int x = thisSelectedPosition.First;
                 int y = thisSelectedPosition.Second;
 
-                // Kiểm tra các ô xung quanh vị trí hiện tại bằng matrix Ground
-                if (_ground[x, y] != null && _ground[x, y].LevelGround.Equals(levelGround) && !isVisited[x, y]) // ô chưa được chuyệt và chung level
+                if (_ground[x, y] != null && _ground[x, y].ThisEgg != null)
                 {
-                    isVisited[x, y] = true; // đánh dấu ô đã được duyệt
-                    myQueue.Enqueue(thisSelectedPosition); // thêm ô được chọn vào queue
-                    CheckMerge = true; // có trường hợp có thể merge
-                    isPrepareMerge = true; // xác định có ô merge
+                    //Debug.Log((_ground[x, y].ThisEgg == null) + " " + x + " " + y);
+                    // Kiểm tra các ô xung quanh vị trí hiện tại bằng matrix Ground
+                    if (_ground[x, y].ThisEgg.IdName.Equals(idName) && !isVisited[x, y]) // ô chưa được chuyệt và chung level
+                    {
+                        isVisited[x, y] = true; // đánh dấu ô đã được duyệt
+                        myQueue.Enqueue(thisSelectedPosition); // thêm ô được chọn vào queue
+                        CheckMerge = true; // có trường hợp có thể merge
+                        isPrepareMerge = true; // xác định có ô merge
+                    }
                 }
             }
 
@@ -127,68 +137,168 @@ public class ObjectController : Singleton<ObjectController>
         //Debug.Log("--------------------------------------------------------------");
     }
 
-    public void MergeEgg(Pair<int, int> positionPair)
+    public async void MergeEgg(Pair<int, int> positionPair)
     {
-        isVisited = null;
+        isFinishMerge = false;
         isVisited = new bool[row + 5, column + 5]; // đặt lại mảng cần duyệt
-        myStack = new Stack<Pair<Pair<int, int>, Pair<int, int>>>(); // Lưu đường đi cho trứng gần nhất
+        _numberArrMerge = new int[row + 5, column + 5]; // mảng lưu cấp độ merge
+        _roadList = new List<Pair<Pair<int, int>, List<Pair<int, int>>>>();
+        InitNumberArrMerge();
         CreatingTheWay(positionPair); // tạo đường đi cho trứng
-        ActionOfEgg(); // trứng di chuyển
+        await ActionOfEgg(positionPair); // trứng di chuyển
 
-        
+        //await Task.Delay(110);
+        isFinishMerge = true;
     }
 
-    private void ActionOfEgg()
+    private void InitNumberArrMerge()
     {
-        //Debug.Log(myStack.Count);
-        //while (myStack.Count > 0)
-        //{
-        //    Pair<Pair<int, int>, Pair<int, int>> pair = myStack.Pop();
-        //    Pair<int, int> positionStart = pair.First;
-        //    Pair<int, int> positionEnd = pair.Second;
-
-        //    Debug.Log("Điểm bắt đầu: " + positionStart.First + " " + positionStart.Second);
-        //    Debug.Log("Điểm kết thúc: " + positionEnd.First + " " + positionEnd.Second);
-        //}
-        if (myStack.Count > 0)
+        for (int i = 1; i <= row; i++)
         {
-            Pair<Pair<int, int>, Pair<int, int>> pair = myStack.Pop();
-            Pair<int, int> positionStart = pair.First;
-            Pair<int, int> positionEnd = pair.Second;
+            for (int j = 1; j <= column; j++)
+            {
+                _numberArrMerge[i, j] = -1;
+            }
+        }
+    }
 
-            // Di chuyển start -> end -> ẩn image Egg -> reset position egg.
-            Vector3 _startTransformPosition = _egg[positionStart.First, positionStart.Second].transform.position;
-            //Debug.Log("Transform Start = " + _startTransformPosition);
-            _egg[positionStart.First, positionStart.Second].transform
-                .DOMove(_egg[positionEnd.First, positionEnd.Second].transform.position, 0.05f)
-                .OnComplete(() =>
+    private async Task ActionOfEgg(Pair<int, int> positionPair)
+    {
+        bool checkAction = false;
+        for (int i = _maxNumberMerge - 1; i >= 0; i--)
+        {
+            foreach (Pair<Pair<int, int>, List<Pair<int, int>>> pair in _roadList)
+            {
+                Pair<int, int> endPoint = pair.First;
+                List<Pair<int, int>> startPointList = pair.Second;
+                int numberCurrentEnd = _numberArrMerge[endPoint.First, endPoint.Second]; // số hiện tại của điểm đến
+                if (numberCurrentEnd == i)
                 {
-                    //Debug.Log("Transform Start = " + _startTransformPosition);
-                    _egg[positionStart.First, positionStart.Second].transform.position = _startTransformPosition;
+                    if (startPointList.Count > 0)
+                    {
+                        foreach (Pair<int, int> startPoint in startPointList)  // Di chuyển điểm đi tới điểm đến
+                        {
+                            //_egg[startPoint.First, startPoint.Second].Image.DOFade(0, 0.1f);
+                            _ground[startPoint.First, startPoint.Second].ThisEgg.transform
+                                .DOMove(_ground[endPoint.First, endPoint.Second].ThisEgg.transform.position, 0.1f)
+                                .OnComplete(() =>
+                                {
+                                    _ground[endPoint.First, endPoint.Second].SetCenterEgg();
+                                    _ground[startPoint.First, startPoint.Second].ThisEgg.gameObject.SetActive(false);
+                                    _poolEgg.Add(_ground[startPoint.First, startPoint.Second].ThisEgg);
+                                    
+                                    _ground[startPoint.First, startPoint.Second].ThisEgg.transform.SetParent(null);
+                                    _ground[startPoint.First, startPoint.Second].ThisEgg = null;
+                                });
+                        }
+                        checkAction = true;
+                    }
 
-                    _egg[positionStart.First, positionStart.Second].Image.color = _colorHideAsset;
-                    _ground[positionStart.First, positionStart.Second].CheckHaveEgg = false;
-                    ActionOfEgg();
-                });
+                }
+            }
+            if (checkAction) await Task.Delay(60);
         }
-        else
+        if (checkAction)
         {
-            // Init
-            SetInitGround();
-            CheckMerge = false;
+            await Task.Delay(40);
         }
+
+        _ground[positionPair.First, positionPair.Second].ThisEgg.UpLevelEgg(); // nâng cấp trứng sau merge
+
+        //Init
+        SetInitGround();
+        CheckMerge = false;
+        SetMatrixEgg();
+    }
+
+    private void SetMatrixEgg()
+    {
+        CheckTileHaveEggCurrent();
+
+        for (int j = 1; j <= column; ++j) // duyệt từng cột
+        {
+            for (int i = row; i >= row - _amoutEggOfColumn[j] + 1; --i) // trứng hiện có thì rơi xuống
+            {
+                if (_ground[i, j].ThisEgg == null)
+                {
+                    for (int iCheck = i - 1; iCheck >= 1; --iCheck)
+                    {
+                        if (_checkHaveEgg[iCheck, j])
+                        {
+                            _checkHaveEgg[iCheck, j] = false;
+                            _ground[i, j].ThisEgg = _ground[iCheck, j].ThisEgg;
+                            _ground[iCheck, j].ThisEgg.transform
+                                .DOMove(_ground[i, j].transform.position, 0.1f)
+                                .OnComplete(() => _ground[i,j].SetCenterEgg());
+                            _ground[iCheck, j].ThisEgg = null;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            for (int i = row - _amoutEggOfColumn[j]; i >= 1; --i) // lấy trứng từ pool
+            {
+                _poolEgg[0].transform.position = _ground[1, j].transform.position + Vector3.up;
+                _poolEgg[0].SetRandomEgg();
+                _poolEgg[0].gameObject.SetActive(true);
+                _ground[i, j].ThisEgg = _poolEgg[0];
+                _poolEgg[0].transform
+                    .DOMove(_ground[i, j].transform.position, 0.1f)
+                    .OnComplete(() => _ground[i, j].SetCenterEgg());
+                _poolEgg.Remove(_poolEgg[0]);
+            }
+        }
+    }
+
+    private void CheckTileHaveEggCurrent()
+    {
+        _amoutEggOfColumn = new int[column + 5];
+        for (int i = 1; i <= column; ++i)
+        {
+            _amoutEggOfColumn[i] = 0;
+        }
+
+        for (int j = 1; j <= column; ++j)
+        {
+            for (int i = 1; i <= row; ++i)
+            {
+                if (_ground[i, j].ThisEgg != null)
+                {
+                    _checkHaveEgg[i, j] = true;
+                    ++_amoutEggOfColumn[j];
+                }
+                else
+                {
+                    _checkHaveEgg[i, j] = false;
+                }
+            }
+        }
+
+        //for (int j = 1; j <= column; ++j)
+        //{
+        //    Debug.Log(_amoutEggOfColumn[j]);
+        //}
+        //Debug.Log("------------------------------------------------");
     }
 
     private void CreatingTheWay(Pair<int, int> positionPair)
     {
-        myQueue = null;
         myQueue = new Queue<Pair<int, int>>(); // tạo mới 1 queue chứa hàng và cột
         myQueue.Enqueue(positionPair); // thêm ô hiện tại vào queue
+        _numberArrMerge[positionPair.First, positionPair.Second] = 0;
 
         while (myQueue.Count > 0) // queue chưa rỗng
         {
+            List<Pair<int, int>> myList = new List<Pair<int, int>>(); // danh sách các điểm đi
+
             Pair<int, int> myPosition = myQueue.Dequeue();  // lấy phản tử đầu tiên đồng thời xóa
             isVisited[myPosition.First, myPosition.Second] = true; // đánh dấu ô đã được duyệt
+            if (_maxNumberMerge < _numberArrMerge[myPosition.First, myPosition.Second])
+            {
+                _maxNumberMerge = _numberArrMerge[myPosition.First, myPosition.Second];
+            }
+
             //Debug.Log("Ô duyệt bằng BFS có tọa độ: " + myPosition.First + " " + myPosition.Second);
             for (int i = 0; i < 4; ++i)
             {
@@ -202,8 +312,14 @@ public class ObjectController : Singleton<ObjectController>
                 {
                     isVisited[x, y] = true; // đánh dấu ô đã được duyệt
                     myQueue.Enqueue(positionPair); // thêm ô được chọn vào queue
-                    myStack.Push(new Pair<Pair<int, int>, Pair<int, int>>(positionPair, myPosition)); // điểm đi -> điểm đến
+                    _numberArrMerge[positionPair.First, positionPair.Second] = _numberArrMerge[myPosition.First, myPosition.Second] + 1;
+                    myList.Add(positionPair);
                 }
+            }
+
+            if (myList.Count > 0)
+            {
+                _roadList.Add(new Pair<Pair<int, int>, List<Pair<int, int>>>(myPosition, myList));
             }
         }
     }
