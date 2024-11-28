@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: Level7
   m_EditorClassIdentifier: 
   avatar: {fileID: -8954864689738556030, guid: fd7f427abb4ece2448755652792629b0, type: 3}
+  icon: {fileID: 1194432297, guid: 7e5ed2f143d1606459ae3ffe642e660a, type: 3}
   idName: Level7
   movement: {fileID: 0}
