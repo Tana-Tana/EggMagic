@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86ad9a5ddb4b1b745a3640c60fc014ed, type: 3}
+  m_Name: Level12
+  m_EditorClassIdentifier: 
+  avatar: {fileID: 1681502857, guid: fd7f427abb4ece2448755652792629b0, type: 3}
+  icon: {fileID: 553429203, guid: 7e5ed2f143d1606459ae3ffe642e660a, type: 3}
+  idName: Level12
+  movement: {fileID: 0}
