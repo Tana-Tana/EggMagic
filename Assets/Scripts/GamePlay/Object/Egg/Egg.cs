@@ -22,9 +22,9 @@ public class Egg : MonoBehaviour
     [SerializeField] private EggType eggType;
     public EggType EggType { get { return eggType; } set { eggType = value; } }
 
-    private int _levelMaxOfEggType = 3;
 
-    public int LevelMaxOfEggType { get { return _levelMaxOfEggType; } set {  _levelMaxOfEggType = value;}}
+    private int _scoreEgg;
+    public int ScoreEgg { get { return _scoreEgg; } set { _scoreEgg = value; } }
 
     public void LoadInitEgg()
     {
@@ -34,21 +34,23 @@ public class Egg : MonoBehaviour
 
     private string IdentifyInitId()
     {
-        int number = Random.Range(0, _levelMaxOfEggType);
+        int number = Random.Range(1, GamePlayController.Instance.LevelMaxOfEgg + 1);
         eggType = (EggType)number;
+        SetScoreEgg((int)eggType);
         return eggType.ToString();
     }
 
     public void UpLevelEgg()
     {
-        if (_levelMaxOfEggType < (int)eggType + 1)
-        {
-            _levelMaxOfEggType = (int)eggType + 1;
-        }
-
         eggType = (EggType)((int)eggType + 1);
+        SetScoreEgg((int)eggType);
         EggInfor eggInfor = Resources.Load<EggInfor>(GameConfig.EGG_INFOR_PATH + eggType.ToString());
         SetInforEgg(eggInfor);
+
+        if (GamePlayController.Instance.LevelMaxOfEgg < (int)eggType)
+        {
+            GamePlayController.Instance.LevelMaxOfEgg = (int)eggType;
+        }
     }
 
     private void SetInforEgg(EggInfor eggInfor)
@@ -61,29 +63,38 @@ public class Egg : MonoBehaviour
 
     public void SetRandomEgg()
     {
-        if(_levelMaxOfEggType < 11)
+        if(GamePlayController.Instance.LevelMaxOfEgg < 11)
         {
+            Debug.Log("Set Easy!");
             SetLevelEasy();
         }
         else
         {
+            Debug.Log("Set Hard!");
             SetLevelHard();
         }
     }
 
     private void SetLevelHard()
     {
-        int number = Random.Range(_levelMaxOfEggType - 8, _levelMaxOfEggType);
+        int number = Random.Range(GamePlayController.Instance.LevelMaxOfEgg - 7, GamePlayController.Instance.LevelMaxOfEgg);
         eggType = (EggType)number;
+        SetScoreEgg((int)eggType);
         EggInfor eggInfor = Resources.Load<EggInfor>(GameConfig.EGG_INFOR_PATH + eggType.ToString());
         SetInforEgg(eggInfor);
     }
 
     private void SetLevelEasy()
     {
-        int number = Random.Range(_levelMaxOfEggType - 3, _levelMaxOfEggType);
+        int number = Random.Range(1, Math.Min(4, GamePlayController.Instance.LevelMaxOfEgg));
         eggType = (EggType)number;
+        SetScoreEgg((int)eggType);
         EggInfor eggInfor = Resources.Load<EggInfor>(GameConfig.EGG_INFOR_PATH + eggType.ToString());
         SetInforEgg(eggInfor);
+    }
+
+    private void SetScoreEgg(int number)
+    {
+        _scoreEgg = number;
     }
 }

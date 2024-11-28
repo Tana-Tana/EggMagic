@@ -3,6 +3,7 @@ namespace Assets.Scripts.GamePlay.Object.Egg
 {
     public enum EggType
     {
+        NONE,
         Level1,
         Level2,
         Level3,

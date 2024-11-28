@@ -34,8 +34,12 @@ public class ObjectController : Singleton<ObjectController>
     public bool isFinishMerge = true;
     private bool[,] _checkHaveEgg; // lưu ô còn trứng
     private int[] _amoutEggOfColumn;
+
     //Pool
     private List<Egg> _poolEgg;
+
+    //Score
+    private int _scorePending = 0;
 
     private void Start()
     {
@@ -69,20 +73,28 @@ public class ObjectController : Singleton<ObjectController>
         }
 
     }
-    public void SetInitGround()
+
+    public async Task SetInitGround()
     {
         isPrepareMerge = false;
         CheckMerge = false;
+        bool checkAction = false;
         for (int i = 1; i <= row; ++i)
         {
             for (int j = 1; j <= column; ++j)
             {
                 if (_ground[i, j].isSelected)
                 {
+                    checkAction= true;
                     _ground[i, j].isSelected = false;
-                    _ground[i, j].transform.position -= Vector3.up * 0.1f;
+                    _ground[i, j].transform.DOMove(-(Vector3.up * 0.1f), 0.25f).SetRelative();
                 }
             }
+        }
+
+        if (checkAction)
+        {
+            await Task.Delay(250);
         }
     }
 
@@ -94,16 +106,19 @@ public class ObjectController : Singleton<ObjectController>
         PickGroundWithTheSameLevelByBFS(idName, thisSelectedPosition);
     }
 
-    private void PickGroundWithTheSameLevelByBFS(string idName, Pair<int, int> thisSelectedPosition)
+    private async void PickGroundWithTheSameLevelByBFS(string idName, Pair<int, int> thisSelectedPosition)
     {
         myQueue = new Queue<Pair<int, int>>(); // tạo mới 1 queue chứa hàng và cột
         myQueue.Enqueue(thisSelectedPosition); // thêm ô hiện tại vào queue
         //Debug.Log("Ô duyệt bằng BFS có tọa độ: " + thisSelectedPosition.First + " " + thisSelectedPosition.Second);
         //Debug.Log(idName);
+        _scorePending = 0; // reset ScorePending
 
         while (myQueue.Count > 0) // queue chưa rỗng
         {
             Pair<int, int> myPosition = myQueue.Dequeue();  // lấy phản tử đầu tiên đồng thời xóa
+            _scorePending += _ground[myPosition.First, myPosition.Second].ThisEgg.ScoreEgg; // pendingScore
+
             isVisited[myPosition.First, myPosition.Second] = true; // đánh dấu ô đã được duyệt
             //Debug.Log("Ô duyệt bằng BFS có tọa độ: " + myPosition.First + " " + myPosition.Second);
             for (int i = 0; i < 4; ++i)
@@ -130,10 +145,10 @@ public class ObjectController : Singleton<ObjectController>
             if (CheckMerge)
             {
                 _ground[myPosition.First, myPosition.Second].isSelected = true; // đánh dấu ô này được chọn
-                _ground[myPosition.First, myPosition.Second].transform.position += Vector3.up * 0.1f; // hiệu ứng ô được chọn
+                _ground[myPosition.First, myPosition.Second].transform.DOMove((Vector3.up * 0.1f), 0.25f).SetRelative(); // hiệu ứng ô được chọn
             }
         }
-
+        if(CheckMerge) await Task.Delay(250);
         //Debug.Log("--------------------------------------------------------------");
     }
 
@@ -148,6 +163,8 @@ public class ObjectController : Singleton<ObjectController>
         await ActionOfEgg(positionPair); // trứng di chuyển
 
         //await Task.Delay(110);
+        GamePlayController.Instance.Score += _scorePending;
+        Messenger.Broadcast(EventKey.RESET_TIME_AND_UPDATE_SCORE);
         isFinishMerge = true;
     }
 
@@ -181,6 +198,7 @@ public class ObjectController : Singleton<ObjectController>
                             //_egg[startPoint.First, startPoint.Second].Image.DOFade(0, 0.1f);
                             _ground[startPoint.First, startPoint.Second].ThisEgg.transform
                                 .DOMove(_ground[endPoint.First, endPoint.Second].ThisEgg.transform.position, 0.1f)
+                                .SetEase(Ease.OutQuad)
                                 .OnComplete(() =>
                                 {
                                     _ground[endPoint.First, endPoint.Second].SetCenterEgg();
@@ -196,7 +214,7 @@ public class ObjectController : Singleton<ObjectController>
 
                 }
             }
-            if (checkAction) await Task.Delay(60);
+            if (checkAction) await Task.Delay(60); // chờ 60s để 
         }
         if (checkAction)
         {
@@ -206,9 +224,9 @@ public class ObjectController : Singleton<ObjectController>
         _ground[positionPair.First, positionPair.Second].ThisEgg.UpLevelEgg(); // nâng cấp trứng sau merge
 
         //Init
-        SetInitGround();
         CheckMerge = false;
         SetMatrixEgg();
+        await SetInitGround();
     }
 
     private void SetMatrixEgg()
@@ -229,6 +247,7 @@ public class ObjectController : Singleton<ObjectController>
                             _ground[i, j].ThisEgg = _ground[iCheck, j].ThisEgg;
                             _ground[iCheck, j].ThisEgg.transform
                                 .DOMove(_ground[i, j].transform.position, 0.1f)
+                                .SetEase(Ease.OutQuad)
                                 .OnComplete(() => _ground[i,j].SetCenterEgg());
                             _ground[iCheck, j].ThisEgg = null;
                             break;
@@ -245,6 +264,7 @@ public class ObjectController : Singleton<ObjectController>
                 _ground[i, j].ThisEgg = _poolEgg[0];
                 _poolEgg[0].transform
                     .DOMove(_ground[i, j].transform.position, 0.1f)
+                    .SetEase(Ease.OutQuad)
                     .OnComplete(() => _ground[i, j].SetCenterEgg());
                 _poolEgg.Remove(_poolEgg[0]);
             }

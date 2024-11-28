@@ -28,29 +28,33 @@ public class Ground : MonoBehaviour
         }
     }
 
-    public void OnClick()
+    public async void OnClick()
     {
-        if(ObjectController.Instance.isFinishMerge)
+        if(!GamePlayController.Instance.CheckEndGame)
         {
-            if (!isSelected && !ObjectController.Instance.isPrepareMerge)  // bảng init
+            if (ObjectController.Instance.isFinishMerge)
             {
-                ObjectController.Instance.DoSomethingWithGroundIsSelected(thisEgg.IdName, _positionPair);
-            }
-            else
-            {
-                if (!isSelected && ObjectController.Instance.isPrepareMerge) // đang có ô pending merge
+                if (!isSelected && !ObjectController.Instance.isPrepareMerge)  // bảng init
                 {
-                    ObjectController.Instance.SetInitGround();
+                    ObjectController.Instance.DoSomethingWithGroundIsSelected(thisEgg.IdName, _positionPair);
                 }
                 else
                 {
-                    if (isSelected)
+                    if (!isSelected && ObjectController.Instance.isPrepareMerge) // đang có ô pending merge
                     {
-                        Debug.Log("Thực hiện merge");
-                        ObjectController.Instance.MergeEgg(_positionPair);
+                        await ObjectController.Instance.SetInitGround();
+                    }
+                    else
+                    {
+                        if (isSelected)
+                        {
+                            Debug.Log("Thực hiện merge");
+                            ObjectController.Instance.MergeEgg(_positionPair);
+                        }
                     }
                 }
             }
         }
     }
+
 }
