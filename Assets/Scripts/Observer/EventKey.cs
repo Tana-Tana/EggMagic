@@ -1,12 +1,8 @@
 ﻿public enum EventKey
 {
-    NONE = -1,
-    STARTGAME,
-    ENDGAME,
-    UPDATE_UI,
-    UnSelectionGround,
-    GroundIsSelected,
-    InitPosionAllGround,
-    MergeEgg,
-    SetEggMatrix,
+    RESET_TIME_AND_UPDATE_SCORE,
+    HIDE_BOTTOM_AND_PUSH_UP_TITLE,
+    SHOW_BOTTOM_AND_PUSH_UP_TITLE,
+    LOAD_ACHIEVEMENT,
+    SHOW_POPUP_END_GAME,
 }
