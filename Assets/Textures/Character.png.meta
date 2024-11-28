@@ -590,7 +590,7 @@ TextureImporter:
         serializedVersion: 2
         x: 2697
         y: 3838
-        width: 214
+        width: 215
         height: 224
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -611,7 +611,7 @@ TextureImporter:
         serializedVersion: 2
         x: 2914
         y: 3838
-        width: 217
+        width: 215
         height: 224
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -895,27 +895,6 @@ TextureImporter:
       bones: []
       spriteID: 13638915e46fcf810800000000000000
       internalID: 1800584767278167601
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Export_EX 2_22
-      rect:
-        serializedVersion: 2
-        x: 2758
-        y: 3591
-        width: 1057
-        height: 225
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 785ccca5f421df160800000000000000
-      internalID: 7060819922821891463
       vertices: []
       indices: 
       edges: []
@@ -1635,27 +1614,6 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Export_EX 2_57
-      rect:
-        serializedVersion: 2
-        x: 1849
-        y: 2477
-        width: 518
-        height: 123
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: cc518f36d87528740800000000000000
-      internalID: 5152777188444476876
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
       name: BackPoint_1-3
       rect:
         serializedVersion: 2
@@ -1672,27 +1630,6 @@ TextureImporter:
       bones: []
       spriteID: 1a705d83b7f178fd0800000000000000
       internalID: -2339866867300759647
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Export_EX 2_59
-      rect:
-        serializedVersion: 2
-        x: 2055
-        y: 2392
-        width: 107
-        height: 68
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: da333c3294d5cfe40800000000000000
-      internalID: 5691526597803455405
       vertices: []
       indices: 
       edges: []
@@ -2265,27 +2202,6 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Export_EX 2_60
-      rect:
-        serializedVersion: 2
-        x: 1440
-        y: 1850
-        width: 1336
-        height: 522
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: b20eb69cb0220e443970cbda6038a970
-      internalID: -745055587
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
       name: Export_EX 2_64
       rect:
         serializedVersion: 2
@@ -2516,6 +2432,27 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Character_0
+      rect:
+        serializedVersion: 2
+        x: 3340
+        y: 3700
+        width: 472
+        height: 111
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 897248ad6e5cd6c4db2a74c26face25f
+      internalID: 1249163849
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -2534,6 +2471,7 @@ TextureImporter:
       BackPoint_4-6: 5052702232747324865
       BackPoint_7-9: 1179662340166981003
       BasicAllLevel: -2999472664641591430
+      Character_0: 1249163849
       EvenBase: 87451063516225480
       EvenBaseBigger: -6489208316607118271
       Export_EX 2_0: -5654083910335648924
