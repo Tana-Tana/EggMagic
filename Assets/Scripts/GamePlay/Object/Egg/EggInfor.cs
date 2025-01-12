@@ -5,16 +5,19 @@ using UnityEngine;
 public class EggInfor : ScriptableObject
 {
     [SerializeField][PreviewField(80)] 
-    private Sprite avatar;
+    private Sprite imageGamePlay;
 
     [SerializeField][PreviewField(80)]
-    private Sprite icon;
+    private Sprite achievement;
 
-    [SerializeField] private string idName;
-    [SerializeField] private Animator movement;
+    [SerializeField] private string level;
 
-    public Sprite Avatar => avatar;
-    public Sprite Icon => icon;
+    public Sprite ImageGamePlay => imageGamePlay;
+    public Sprite ImageAchivement => achievement;
 
-    public string IdName => idName;
+    public string Level => level;
+    private void OnValidate()
+    {
+        level = name;
+    }
 }

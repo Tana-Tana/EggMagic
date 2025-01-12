@@ -28,7 +28,7 @@ public class TutorialPanel : Panel
     {
         if (GamePlayController.Instance != null)
         {
-            GamePlayController.Instance.CheckContinue = true;
+            GamePlayController.Instance.checkContinue = true;
         }
         else
         {

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace Assets.Scripts.Common
 {
     public static class GameConfig
@@ -23,6 +18,8 @@ namespace Assets.Scripts.Common
         public const string SETTING_PANEL = "SettingPanel";
         public const string TUTORIAL_PANEL = "TutorialPanel";
 
+        // sorting Layer
+        public const string OBJECT_LAYER = "Object";
 
         // score
         public const int HIGH_SCORE_START = 0;

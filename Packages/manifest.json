@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.coffee.ui-effect": "https://github.com/mob-sakai/UIEffect.git?path=Packages/src",
     "com.hungnt.rainbowfolder": "https://github.com/HungNT-Packages/HungNT-RainbowFolder.git",
     "com.wooshii.hierarchydecorator" : "https://github.com/WooshiiDev/HierarchyDecorator.git",
     "com.unity.2d.sprite": "1.0.0",

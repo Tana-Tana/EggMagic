@@ -604,5 +604,10 @@ internal static class Messenger
         InvokeCallback(permanentTable, eventType, arg1, arg2, arg3, arg4, arg5);
     }
 
+    internal static void RemoveListener(EventKey sET_IMAGE_EGG_MAX)
+    {
+        throw new NotImplementedException();
+    }
+
     #endregion
 }

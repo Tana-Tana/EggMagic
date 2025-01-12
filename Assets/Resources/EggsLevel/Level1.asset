@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86ad9a5ddb4b1b745a3640c60fc014ed, type: 3}
   m_Name: Level1
   m_EditorClassIdentifier: 
-  avatar: {fileID: 6590747716636116084, guid: fd7f427abb4ece2448755652792629b0, type: 3}
-  icon: {fileID: 1231589688, guid: 7e5ed2f143d1606459ae3ffe642e660a, type: 3}
-  idName: Level1
-  movement: {fileID: 0}
+  imageGamePlay: {fileID: 3998848078962674278, guid: 52df0e53a0d8a334bb772c3f7736711f, type: 3}
+  achievement: {fileID: 6590747716636116084, guid: fd7f427abb4ece2448755652792629b0, type: 3}
+  level: Level1

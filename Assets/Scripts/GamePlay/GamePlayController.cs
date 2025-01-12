@@ -14,29 +14,16 @@ public class GamePlayController : Singleton<GamePlayController>
     private int _bestScore;
     public int BestScore { get { return _bestScore; } set { _bestScore = value; } }
 
-    private bool _checkContinue = true;
-    public bool CheckContinue { get { return _checkContinue; } set { _checkContinue = value; } }
-
-    private bool _checkEndGame = false;
-    public bool CheckEndGame { get { return _checkEndGame; } set {_checkEndGame = value; } }
-
-    public bool _checkNoNextStep = false;
-    public bool CheckNoNextStep { get { return _checkNoNextStep; } set { _checkContinue = value; } }
+    //public check
+    public bool checkContinue = true;
+    public bool checkEndGame = false;
+    public bool checkNoNextStep = false;
+    public bool checkMerging = false;
 
     private void Start()
     {
         Application.targetFrameRate = GameConfig.FPS;
         _bestScore = GamePrefs.GetHighScore();
-        PanelManager.Instance.OpenPanel(GameConfig.GAME_PLAY_PANEL);
-    }
-
-    private void Update()
-    {
-        if(_score >= _bestScore)
-        {
-            _bestScore = _score;
-            GamePrefs.SetHighScore(_bestScore);
-        }
     }
 
 }

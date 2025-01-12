@@ -27,7 +27,7 @@ public class SettingPanel : Panel
     {
         if(GamePlayController.Instance != null)
         {
-            GamePlayController.Instance.CheckContinue = true;
+            GamePlayController.Instance.checkContinue = true;
         }
         else
         {

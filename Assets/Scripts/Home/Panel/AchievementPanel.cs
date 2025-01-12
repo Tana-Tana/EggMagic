@@ -41,8 +41,12 @@ public class AchievementPanel : Panel
 
             EggInfor eggInfor = Resources.Load<EggInfor>(GameConfig.EGG_INFOR_PATH + "Level" + (i + 1));
             //Debug.Log(levelCurrent + " " + (eggInfor == null));
-            _achievements[i].Egg.sprite = eggInfor.Icon;
+            _achievements[i].Egg.sprite = eggInfor.ImageAchivement;
             _achievements[i].Egg.SetNativeSize();
+            if ((i+1) == 6 || (i+1) == 7)
+            {
+                _achievements[i].Egg.transform.position += Vector3.up * 0.05f;
+            }
         }
     }
 

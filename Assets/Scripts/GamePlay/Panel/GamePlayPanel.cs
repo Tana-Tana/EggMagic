@@ -1,8 +1,6 @@
-using System;
-using System.Collections;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Assets.Scripts.Common;
-using DG.Tweening;
+using Assets.Scripts.GamePlay.Object.Egg;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -18,6 +16,7 @@ public class GamePlayPanel : Panel
     [Header("Time", order = 1)]
     [SerializeField] private Image countTimeImage;
     [SerializeField] private TextMeshProUGUI noticeEndGame;
+    [SerializeField] private Animator animatorNotice;
     [SerializeField] private float fillTime;
     private bool _checkFillTime;
 
@@ -29,6 +28,10 @@ public class GamePlayPanel : Panel
     [Header("COVER", order = 3)]
     [SerializeField] private RectTransform leftCover;
     [SerializeField] private RectTransform rightCover;
+
+    [Header("OTHER", order = 4)]
+    [SerializeField] private Image eggCurrentSelect;
+    [SerializeField] private Image eggNext;
 
     private async void Start()
     {
@@ -46,11 +49,53 @@ public class GamePlayPanel : Panel
     private void OnEnable()
     {
         Messenger.AddListener(EventKey.RESET_TIME_AND_UPDATE_SCORE, ResetTimeAndUpdateScore);
+        Messenger.AddListener<EggType>(EventKey.SET_IMAGE_EGG_CURRENT, SetImageEggCurrent);
+        Messenger.AddListener(EventKey.SET_IMAGE_EGG_MAX, SetImageEggMax);
     }
 
     private void OnDisable()
     {
         Messenger.RemoveListener(EventKey.RESET_TIME_AND_UPDATE_SCORE, ResetTimeAndUpdateScore);
+        Messenger.RemoveListener<EggType>(EventKey.SET_IMAGE_EGG_CURRENT, SetImageEggCurrent);
+        Messenger.RemoveListener(EventKey.SET_IMAGE_EGG_MAX, SetImageEggMax);
+    }
+
+    private void SetImageEggMax()
+    {
+        if(GamePlayController.Instance.LevelMaxOfEgg < 14)
+        {
+            // eggCurrent
+            EggInfor eggInfor = Resources.Load<EggInfor>(GameConfig.EGG_INFOR_PATH + "Level" + GamePlayController.Instance.LevelMaxOfEgg);
+            eggCurrentSelect.sprite = eggInfor.ImageGamePlay;
+            eggCurrentSelect.SetNativeSize();
+
+            // eggNext
+            eggInfor = Resources.Load<EggInfor>(GameConfig.EGG_INFOR_PATH + "Level" + (GamePlayController.Instance.LevelMaxOfEgg + 1));
+            eggNext.sprite = eggInfor.ImageGamePlay;
+            eggNext.SetNativeSize();
+        }
+        else
+        {
+            EggInfor eggInfor = Resources.Load<EggInfor>(GameConfig.EGG_INFOR_PATH + "Level" + GamePlayController.Instance.LevelMaxOfEgg);
+            eggCurrentSelect.sprite = eggInfor.ImageGamePlay;
+            eggCurrentSelect.SetNativeSize();
+
+            eggNext.sprite = eggInfor.ImageGamePlay;
+            eggNext.SetNativeSize();
+        }
+    }
+
+    private void SetImageEggCurrent(EggType eggType)
+    {
+        // eggCurrent
+        EggInfor eggInfor = Resources.Load<EggInfor>(GameConfig.EGG_INFOR_PATH + eggType);
+        eggCurrentSelect.sprite = eggInfor.ImageGamePlay;
+        eggCurrentSelect.SetNativeSize();
+
+        // eggNext
+        eggInfor = Resources.Load<EggInfor>(GameConfig.EGG_INFOR_PATH + (EggType)((int)eggType + 1));
+        eggNext.sprite = eggInfor.ImageGamePlay;
+        eggNext.SetNativeSize();
 
     }
 
@@ -63,29 +108,39 @@ public class GamePlayPanel : Panel
 
     private void Update()
     {
-        if (_checkFillTime)
+        if (GamePlayController.Instance.checkNoNextStep && _checkFillTime)
         {
-            if (countTimeImage.fillAmount > 0 && GamePlayController.Instance.CheckContinue && !GamePlayController.Instance.CheckNoNextStep)
+            GamePrefs.SetLevelEggMax(GamePlayController.Instance.LevelMaxOfEgg);
+            ShowEndGamePanel();
+            _checkFillTime = false;
+        }
+        else
+        {
+            if (_checkFillTime)
             {
-                overlayUI.SetActive(false);
-                //Debug.Log(countTimeImage.fillAmount);
-                countTimeImage.fillAmount -= Time.deltaTime * fillTime;
-            }
-            else
-            {
-                if (!GamePlayController.Instance.CheckEndGame && GamePlayController.Instance.CheckContinue)
+                if (countTimeImage.fillAmount > 0 && GamePlayController.Instance.checkContinue)
                 {
-                    GamePlayController.Instance.CheckEndGame = true;
-                    GamePrefs.SetLevelEggMax(GamePlayController.Instance.LevelMaxOfEgg);
-                    ShowEndGamePanel();
+                    overlayUI.SetActive(false);
+                    //Debug.Log(countTimeImage.fillAmount);
+                    countTimeImage.fillAmount -= Time.deltaTime * fillTime;
+                }
+                else
+                {
+                    if (!GamePlayController.Instance.checkEndGame && GamePlayController.Instance.checkContinue)
+                    {
+                        GamePlayController.Instance.checkEndGame = true;
+                        GamePrefs.SetLevelEggMax(GamePlayController.Instance.LevelMaxOfEgg);
+                        ShowEndGamePanel();
+                    }
                 }
             }
         }
     }
 
-    private void ShowEndGamePanel()
+    private async void ShowEndGamePanel()
     {
-        if (GamePlayController.Instance.CheckNoNextStep)
+        animatorNotice.enabled = true;
+        if (GamePlayController.Instance.checkNoNextStep)
         {
             noticeEndGame.text = "No more steps to move!!!";
         }
@@ -94,21 +149,18 @@ public class GamePlayPanel : Panel
             noticeEndGame.text = "Time out!!!";
         }
 
-        noticeEndGame.gameObject.SetActive(true);
-        StartCoroutine(IEDelayTimeShowText());
-    }
-
-    private IEnumerator IEDelayTimeShowText()
-    {
-        yield return new WaitForSeconds(2);
+        await Task.Delay(2000); // sau thay bằng thời gian nhạc
         PanelManager.Instance.OpenPanel(GameConfig.END_GAME_PANEL);
     }
 
     public void ShowNoticeReset()
     {
-        GamePlayController.Instance.CheckContinue = false;
-        overlayUI.SetActive(true);
-        noticeReset.SetActive(true);
+        if(!animatorNotice.enabled)
+        {
+            GamePlayController.Instance.checkContinue = false;
+            overlayUI.SetActive(true);
+            noticeReset.SetActive(true);
+        }
     }
 
     public async void ResetGame()
@@ -120,15 +172,18 @@ public class GamePlayPanel : Panel
 
     public void HideNoticeReset()
     {
-        GamePlayController.Instance.CheckContinue = true;
+        GamePlayController.Instance.checkContinue = true;
         noticeReset.SetActive(false);
     }
 
     public void ShowNoticeBackHome()
     {
-        GamePlayController.Instance.CheckContinue = false;
-        overlayUI.SetActive(true);
-        noticeGoHome.SetActive(true);
+        if(!animatorNotice.enabled)
+        {
+            GamePlayController.Instance.checkContinue = false;
+            overlayUI.SetActive(true);
+            noticeGoHome.SetActive(true);
+        }
     }
 
     public async void BackHome()
@@ -141,7 +196,7 @@ public class GamePlayPanel : Panel
 
     public void HideNoticeBackHome()
     {
-        GamePlayController.Instance.CheckContinue = true;
+        GamePlayController.Instance.checkContinue = true;
         noticeGoHome.SetActive(false);
     }
 
@@ -154,16 +209,22 @@ public class GamePlayPanel : Panel
 
     public void Pause()
     {
-        overlayUI.SetActive(true);
-        GamePlayController.Instance.CheckContinue = false;
-        PanelManager.Instance.OpenPanel(GameConfig.SETTING_PANEL);
+        if(!animatorNotice.enabled)
+        {
+            overlayUI.SetActive(true);
+            GamePlayController.Instance.checkContinue = false;
+            PanelManager.Instance.OpenPanel(GameConfig.SETTING_PANEL);
+        }
     }
 
     public void ShowTutorial()
     {
-        overlayUI.SetActive(true);
-        GamePlayController.Instance.CheckContinue = false;
-        PanelManager.Instance.OpenPanel(GameConfig.TUTORIAL_PANEL);
+        if(!animatorNotice.enabled)
+        {
+            overlayUI.SetActive(true);
+            GamePlayController.Instance.checkContinue = false;
+            PanelManager.Instance.OpenPanel(GameConfig.TUTORIAL_PANEL);
+        }
     }
 
 }

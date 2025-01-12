@@ -1,6 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+
 using System.Threading.Tasks;
 using Assets.Scripts.Common;
 using Assets.Scripts.GamePlay.Object.Egg;
@@ -23,6 +21,11 @@ public class EndGamePanel : Panel
     [SerializeField] private Image starTwo;
     [SerializeField] private Image starThree;
 
+    [SerializeField] private Transform posStarOne;
+    [SerializeField] private Transform posStarTwo;
+    [SerializeField] private Transform posStarThree;
+
+
     [Header("SCORE", order = 1)]
     [SerializeField] private TextMeshProUGUI yourScore;
     [SerializeField] private TextMeshProUGUI bestScore;
@@ -35,25 +38,20 @@ public class EndGamePanel : Panel
     [SerializeField] private float glowZ = 0f;
 
     private bool _checkStartGlow = false;
-    private float _starScore = 0f;
     private AnimatorStateInfo _animatorStateInfo;
 
 
     private async void Start()
     {
         _animatorStateInfo = animatorPopup.GetCurrentAnimatorStateInfo(0);
-        //animatorPopup.enabled = false;
-        _starScore = GamePlayController.Instance.BestScore / 3;
         await LoadPopUp();
         await LoadScore();
         await LoadEgg();
         await LoadStar();
         await LoadOption();
         _checkStartGlow = true;
-        //glow.transform
-        //    .DORotate(Vector3.forward * -360, 2f, RotateMode.FastBeyond360)
-        //    .SetDelay(0)
-        //    .SetLoops(-1, LoopType.Restart);
+        glow.gameObject.SetActive(true);
+        
     }
 
     private void OnEnable()
@@ -79,27 +77,27 @@ public class EndGamePanel : Panel
 
     private async Task LoadPopUp()
     {
-        popup.transform.DOScale(1, 1.5f).SetEase(Ease.OutCubic);
-        await Task.Delay(1500);
+        popup.transform.DOScale(1, 0.5f).SetEase(Ease.OutCubic);
+        await Task.Delay(500);
     }
     private async Task LoadStar()
     {
-        if(1 <= GamePlayController.Instance.Score && GamePlayController.Instance.Score <= GamePlayController.Instance.BestScore)
+        if(GamePlayController.Instance.Score >= 1)
         {
-            starOne.transform.DOMove(starOne.transform.parent.position, 1.5f).SetEase(Ease.OutBounce);
-            await Task.Delay(1500);
+            starOne.transform.DOMove(posStarOne.position, 1f).SetEase(Ease.OutBounce);
+            await Task.Delay(1000);
         }
         
-        if(_starScore <= GamePlayController.Instance.Score && GamePlayController.Instance.Score <= GamePlayController.Instance.BestScore)
+        if(GamePlayController.Instance.Score >= GamePlayController.Instance.BestScore / 2)
         {
-            starTwo.transform.DOMove(starTwo.transform.parent.position, 1.5f).SetEase(Ease.OutBounce);
-            await Task.Delay(1500);
+            starTwo.transform.DOMove(posStarTwo.position, 1f).SetEase(Ease.OutBounce);
+            await Task.Delay(1000);
         }
         
-        if(GamePlayController.Instance.Score == GamePlayController.Instance.BestScore)
+        if(GamePlayController.Instance.Score >= GamePlayController.Instance.BestScore)
         {
-            starThree.transform.DOMove(starThree.transform.parent.position, 1.5f).SetEase(Ease.OutBounce);
-            await Task.Delay(1500);
+            starThree.transform.DOMove(posStarThree.position, 1f).SetEase(Ease.OutBounce);
+            await Task.Delay(1000);
         }
         
     }
@@ -107,20 +105,23 @@ public class EndGamePanel : Panel
     private async Task LoadEgg()
     {
         EggInfor eggInfor = Resources.Load<EggInfor>(GameConfig.EGG_INFOR_PATH + ((EggType)(GamePlayController.Instance.LevelMaxOfEgg)).ToString());
-        //Debug.Log(eggInfor == null);
-        egg.sprite = eggInfor.Icon;
+        egg.sprite = eggInfor.ImageAchivement;
         egg.SetNativeSize();
-        egg.gameObject.transform.DOScale(1f, 1f).SetEase(Ease.OutQuad);
-        await Task.Delay(1000);
+        if(GamePlayController.Instance.LevelMaxOfEgg == 6 || GamePlayController.Instance.LevelMaxOfEgg == 7)
+        {
+            egg.gameObject.transform.position += Vector3.up * 0.05f;
+        }
+        egg.gameObject.transform.DOScale(1f, 0.5f).SetEase(Ease.OutQuad);
+        await Task.Delay(500);
     }
 
     private async Task LoadScore()
     {
         yourScore.text = GamePlayController.Instance.Score.ToString();
-        yourScore.gameObject.transform.DOScale(1f, 1f).SetEase(Ease.OutQuad);
+        yourScore.gameObject.transform.DOScale(1f, 0.5f).SetEase(Ease.OutQuad);
         bestScore.text = GamePlayController.Instance.BestScore.ToString();
-        bestScore.gameObject.transform.DOScale(1f, 1f).SetEase(Ease.OutQuad);
-        await Task.Delay(1000);
+        bestScore.gameObject.transform.DOScale(1f, 0.5f).SetEase(Ease.OutQuad);
+        await Task.Delay(500);
     }
 
     private async Task LoadOption()
@@ -142,7 +143,7 @@ public class EndGamePanel : Panel
     {
         Quaternion quaternion = Quaternion.Euler(0, 0, glowZ);
         glow.transform.rotation = quaternion;
-        glowZ += 0.1f;
+        glowZ += 0.3f;
     }
 
     public async void ResetGame()
