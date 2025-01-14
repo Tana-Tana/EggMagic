@@ -101,6 +101,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 8458815650956371586}
   egg: {fileID: 0}
+  shadowEgg: {fileID: 2966298805379993773}
+  clicked: 0
 --- !u!61 &7824065783186979376
 BoxCollider2D:
   m_ObjectHideFlags: 0

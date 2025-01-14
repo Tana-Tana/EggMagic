@@ -121,8 +121,7 @@ public class GamePlayPanel : Panel
                 if (countTimeImage.fillAmount > 0 && GamePlayController.Instance.checkContinue)
                 {
                     overlayUI.SetActive(false);
-                    //Debug.Log(countTimeImage.fillAmount);
-                    countTimeImage.fillAmount -= Time.deltaTime * fillTime;
+                    //countTimeImage.fillAmount -= Time.deltaTime * fillTime;
                 }
                 else
                 {
