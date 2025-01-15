@@ -1,16 +1,23 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class EggPool
 {
-    private List<Egg> poolEggs = new List<Egg>();
+    private List<Egg> poolEggs;
+
+    public EggPool()
+    {
+        poolEggs = new List<Egg>();
+    }
 
     public Egg GetObject()
     {
         if(poolEggs.Count == 0)
         {
+            Debug.Log("Pool rỗng rồi, lấy gì rơi");
             return null;
         }
-
+        poolEggs[0].gameObject.SetActive(true);
         return poolEggs[0];
     }
 
@@ -27,5 +34,9 @@ public class EggPool
         }
     }
 
+    public int amoutPool()
+    {
+        return poolEggs.Count;
+    }
 
 }

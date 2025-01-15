@@ -20,6 +20,7 @@ public class GamePlayController : Singleton<GamePlayController>
     public bool checkNoNextStep = false;
     public bool checkMerging = false;
     public bool checkBFS = false;
+    public bool checkDrop = false;
 
     private void Start()
     {

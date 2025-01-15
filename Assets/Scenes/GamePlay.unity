@@ -313,51 +313,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &587511009
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 587511011}
-  - component: {fileID: 587511012}
-  m_Layer: 0
-  m_Name: EggPool
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &587511011
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 587511009}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &587511012
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 587511009}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cad43066d3cf7824c80769cdd3983ab9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  eggPrefab: {fileID: 6547316037811166820, guid: 72386891627d2984b92def510bd4bc52, type: 3}
 --- !u!1 &776940808
 GameObject:
   m_ObjectHideFlags: 0
@@ -531,6 +486,7 @@ GameObject:
   - component: {fileID: 961485999}
   - component: {fileID: 961485998}
   - component: {fileID: 961486000}
+  - component: {fileID: 961486001}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -556,6 +512,7 @@ MonoBehaviour:
   checkNoNextStep: 0
   checkMerging: 0
   checkBFS: 0
+  checkDrop: 0
 --- !u!4 &961485999
 Transform:
   m_ObjectHideFlags: 0
@@ -586,6 +543,19 @@ MonoBehaviour:
   dontDestroyOnLoad: 0
   leftCover: {fileID: 0}
   rightCover: {fileID: 0}
+--- !u!114 &961486001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 961485997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cad43066d3cf7824c80769cdd3983ab9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eggPrefab: {fileID: 6547316037811166820, guid: 72386891627d2984b92def510bd4bc52, type: 3}
 --- !u!1 &1133141349
 GameObject:
   m_ObjectHideFlags: 0
@@ -5846,7 +5816,6 @@ SceneRoots:
   - {fileID: 1957746147}
   - {fileID: 871738257}
   - {fileID: 776940809}
-  - {fileID: 587511011}
   - {fileID: 785673361}
   - {fileID: 1133141352}
   - {fileID: 73390021}
