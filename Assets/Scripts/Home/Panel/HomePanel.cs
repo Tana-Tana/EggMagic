@@ -23,6 +23,7 @@ public class HomePanel : Panel
 
         Application.targetFrameRate = GameConfig.FPS;
         await GameManager.Instance.LoadScene();
+
     }
 
     private void OnEnable()
@@ -51,6 +52,7 @@ public class HomePanel : Panel
 
     public async void Play()
     {
+        SoundController.Instance.PlayOneShotAudio(GameConfig.OPEN_POPUP_AUDIO);
         await GameManager.Instance.CloseScene();
         SceneManager.LoadScene(GameConfig.GAME_PLAY);
     }

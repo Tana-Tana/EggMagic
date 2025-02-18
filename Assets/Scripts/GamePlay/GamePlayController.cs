@@ -19,11 +19,23 @@ public class GamePlayController : Singleton<GamePlayController>
     public bool checkEndGame = false;
     public bool checkNoNextStep = false;
     public bool checkMerging = false;
+    public bool checkBFS = false;
+    public bool checkDrop = false;
 
     private void Start()
     {
         Application.targetFrameRate = GameConfig.FPS;
         _bestScore = GamePrefs.GetHighScore();
+        SoundController.Instance.PlayOneShotAudio(GameConfig.START_GAME_AUDIO);
+    }
+
+    public void Scoring(int score)
+    {
+        _score += score;
+        if (_score > _bestScore)
+        {
+            _bestScore = _score;
+        }
     }
 
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Assets.Scripts.Common;
 using UnityEngine;
 
-public class Shadow : MonoBehaviour
+public class ShadowEgg : MonoBehaviour
 {
     [Header("COMPONENT", order = 0)]
     [SerializeField] SpriteRenderer spriteRenderer;

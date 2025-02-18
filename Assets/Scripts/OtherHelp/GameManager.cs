@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Assets.Scripts.Common;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,7 +13,6 @@ public class GameManager : Singleton<GameManager>
     public RectTransform LeftCover { get { return leftCover; }  set { leftCover = value; } }
     [SerializeField] private RectTransform rightCover;
     public RectTransform RightCover { get { return rightCover; } set { rightCover = value; } }
-
 
     public async Task LoadScene()
     {

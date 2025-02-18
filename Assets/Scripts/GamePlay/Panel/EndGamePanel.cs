@@ -88,13 +88,13 @@ public class EndGamePanel : Panel
             await Task.Delay(1000);
         }
         
-        if(GamePlayController.Instance.Score >= GamePlayController.Instance.BestScore / 2)
+        if(GamePlayController.Instance.Score >= GamePrefs.GetHighScore() / 2)
         {
             starTwo.transform.DOMove(posStarTwo.position, 1f).SetEase(Ease.OutBounce);
             await Task.Delay(1000);
         }
         
-        if(GamePlayController.Instance.Score >= GamePlayController.Instance.BestScore)
+        if(GamePlayController.Instance.Score >= GamePrefs.GetHighScore())
         {
             starThree.transform.DOMove(posStarThree.position, 1f).SetEase(Ease.OutBounce);
             await Task.Delay(1000);
@@ -119,7 +119,7 @@ public class EndGamePanel : Panel
     {
         yourScore.text = GamePlayController.Instance.Score.ToString();
         yourScore.gameObject.transform.DOScale(1f, 0.5f).SetEase(Ease.OutQuad);
-        bestScore.text = GamePlayController.Instance.BestScore.ToString();
+        bestScore.text = GamePrefs.GetHighScore().ToString();
         bestScore.gameObject.transform.DOScale(1f, 0.5f).SetEase(Ease.OutQuad);
         await Task.Delay(500);
     }
