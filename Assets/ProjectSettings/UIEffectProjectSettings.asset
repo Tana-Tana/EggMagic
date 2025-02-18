@@ -143,6 +143,24 @@ ShaderVariantCollection:
         passType: 0
       - keywords: COLOR_SUBTRACTIVE
         passType: 0
+      - keywords: COLOR_SUBTRACTIVE SAMPLING_BLUR_DETAIL TARGET_HUE TONE_GRAYSCALE
+        passType: 0
+      - keywords: COLOR_SUBTRACTIVE SAMPLING_BLUR_DETAIL TONE_GRAYSCALE
+        passType: 0
+      - keywords: COLOR_SUBTRACTIVE SAMPLING_BLUR_DETAIL TONE_GRAYSCALE TRANSITION_FADE
+        passType: 0
+      - keywords: COLOR_SUBTRACTIVE SAMPLING_BLUR_FAST
+        passType: 0
+      - keywords: COLOR_SUBTRACTIVE SAMPLING_EDGE_ALPHA
+        passType: 0
+      - keywords: COLOR_SUBTRACTIVE SAMPLING_EDGE_ALPHA TONE_GRAYSCALE
+        passType: 0
+      - keywords: COLOR_SUBTRACTIVE SAMPLING_EDGE_LUMINANCE TONE_GRAYSCALE
+        passType: 0
+      - keywords: COLOR_SUBTRACTIVE SAMPLING_PIXELATION TONE_GRAYSCALE
+        passType: 0
+      - keywords: COLOR_SUBTRACTIVE SAMPLING_RGB_SHIFT TONE_GRAYSCALE
+        passType: 0
       - keywords: COLOR_SUBTRACTIVE TONE_GRAYSCALE
         passType: 0
       - keywords: COLOR_SUBTRACTIVE TONE_GRAYSCALE TRANSITION_COLOR_MULTIPLY_ADDITIVE
@@ -159,9 +177,23 @@ ShaderVariantCollection:
         passType: 0
       - keywords: COLOR_SUBTRACTIVE TRANSITION_COLOR_MULTIPLY_ADDITIVE TRANSITION_SHINY
         passType: 0
+      - keywords: SAMPLING_BLUR_DETAIL TONE_GRAYSCALE
+        passType: 0
       - keywords: SAMPLING_BLUR_DETAIL TRANSITION_COLOR_MULTIPLY_ADDITIVE TRANSITION_SHINY
         passType: 0
       - keywords: SAMPLING_BLUR_FAST
+        passType: 0
+      - keywords: SAMPLING_BLUR_FAST TONE_GRAYSCALE
+        passType: 0
+      - keywords: SAMPLING_BLUR_MEDIUM TONE_GRAYSCALE
+        passType: 0
+      - keywords: SAMPLING_EDGE_ALPHA
+        passType: 0
+      - keywords: SAMPLING_EDGE_ALPHA TONE_GRAYSCALE
+        passType: 0
+      - keywords: SAMPLING_EDGE_ALPHA TONE_NEGATIVE
+        passType: 0
+      - keywords: SAMPLING_EDGE_ALPHA TONE_SEPIA
         passType: 0
       - keywords: SAMPLING_EDGE_ALPHA TRANSITION_COLOR_MULTIPLY_ADDITIVE TRANSITION_SHINY
         passType: 0

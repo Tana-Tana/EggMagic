@@ -1,4 +1,8 @@
-﻿using UnityEngine;
+﻿using System;
+using Assets.Scripts.Common;
+using Assets.Scripts.GamePlay.Object.Egg;
+using Cysharp.Threading.Tasks;
+using UnityEngine;
 
 public class Tile : MonoBehaviour
 {
@@ -34,6 +38,7 @@ public class Tile : MonoBehaviour
         }
         else
         {
+            SoundController.Instance.PlayOneShotAudio(GameConfig.SELECT_EGG_TO_MERGE_AUDIO);
             if (GamePlayController.Instance.checkMerging)
             {
                 Debug.Log("Reset bảng và hạ ô");

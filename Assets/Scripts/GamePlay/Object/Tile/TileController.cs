@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Assets.Scripts.Common;
+using Assets.Scripts.GamePlay.Object.Egg;
 using UnityEngine;
 
 public class TileController : MonoBehaviour
@@ -113,14 +114,15 @@ public class TileController : MonoBehaviour
             }
         }
 
-        RaiseTheLand();
+        RaiseTheLand(tiles[row, col].Egg.Type);
         if (!GamePlayController.Instance.checkBFS) tiles[row, col].clicked = false;
     }
 
-    private void RaiseTheLand()
+    private void RaiseTheLand(EggType eggType)
     {
         if (GamePlayController.Instance.checkBFS)
         {
+            Messenger.Broadcast(EventKey.SET_IMAGE_EGG_CURRENT, eggType);
             GamePlayController.Instance.checkMerging = true;
             for (int i = 1; i <= 5; ++i) //nâng các ô được chọn lên 1 bậc và đổi màu
             {
@@ -138,6 +140,7 @@ public class TileController : MonoBehaviour
 
     private void LowerTheLand()
     {
+        Messenger.Broadcast(EventKey.SET_IMAGE_EGG_MAX);
         GamePlayController.Instance.checkBFS = false;
         GamePlayController.Instance.checkMerging = false;
         for (int i = 1; i <= 5; ++i) //nâng các ô được chọn lên 1 bậc và đổi màu
@@ -154,6 +157,8 @@ public class TileController : MonoBehaviour
         }
     }
 
+    
+
     private void SetChildrenOfTile(Egg[,] eggs)
     {
         for (int i =1;i<= 5; ++i)
@@ -163,9 +168,11 @@ public class TileController : MonoBehaviour
                 tiles[i,j].ShadowEgg.gameObject.SetActive(true);
                 tiles[i, j].Egg = eggs[i,j];
                 tiles[i, j].Egg.transform.SetParent(tiles[i, j].transform);
+                tiles[i, j].Egg.gameObject.SetActive(true);
             }
         }
     }
+
     private void SetNotChildrenOfTile(int row, int col)
     {
         for (int i = 1; i <= 5; ++i)

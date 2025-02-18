@@ -7,6 +7,30 @@ namespace Assets.Scripts.Common
         // path
         public const string HIGH_SCORE_KEY = "HighScore";
         public const string LEVEL_MAX_OF_EGG = "LevelEggMax";
+        public const string MUSIC_KEY = "music";
+        public const string SOUND_KEY = "sound";
+
+        // music
+        public static int GetMusic()
+        {
+            return PlayerPrefs.GetInt(MUSIC_KEY, GameConfig.MUSIC_START);
+        }
+
+        public static void SetMusic(int status)
+        {
+            PlayerPrefs.SetInt(MUSIC_KEY, status);
+        }
+
+        // sound
+        public static int GetSound()
+        {
+            return PlayerPrefs.GetInt(SOUND_KEY, GameConfig.SOUND_START);
+        }
+
+        public static void SetSound(int status)
+        {
+            PlayerPrefs.SetInt(SOUND_KEY, status);
+        }
 
         // High score
         public static int GetHighScore()
@@ -16,7 +40,10 @@ namespace Assets.Scripts.Common
 
         public static void SetHighScore(int newScore)
         {
-            PlayerPrefs.SetInt(HIGH_SCORE_KEY, newScore);
+            if (newScore > GetHighScore())
+            {
+                PlayerPrefs.SetInt(HIGH_SCORE_KEY, newScore);
+            }
         }
 
         // Level max of egg

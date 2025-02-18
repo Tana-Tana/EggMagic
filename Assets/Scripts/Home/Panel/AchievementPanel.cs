@@ -18,6 +18,8 @@ public class AchievementPanel : Panel
 
     private void Start()
     {
+        SoundController.Instance.PlayOneShotAudio(GameConfig.OPEN_POPUP_AUDIO);
+
         _achievements = new List<Achievement>();
         _animatorStateInfo = animator.GetCurrentAnimatorStateInfo(0);
         if (GamePlayController.Instance == null)
@@ -62,6 +64,7 @@ public class AchievementPanel : Panel
 
     public async void BackAsync()
     {
+        SoundController.Instance.PlayOneShotAudio(GameConfig.TAP_AUDIO);
         if (GamePlayController.Instance == null)
         {
             Messenger.Broadcast<float>(EventKey.SHOW_BOTTOM_AND_PUSH_UP_TITLE, _animatorStateInfo.length);

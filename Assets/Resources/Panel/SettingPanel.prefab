@@ -222,7 +222,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2102953383942159375}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2386282161028676280}
+        m_TargetAssemblyTypeName: SettingPanel, Assembly-CSharp
+        m_MethodName: SetStatusSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &490118830184534223
 GameObject:
   m_ObjectHideFlags: 0
@@ -313,7 +325,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7470070475148130557}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2386282161028676280}
+        m_TargetAssemblyTypeName: SettingPanel, Assembly-CSharp
+        m_MethodName: SetStatusMusic
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &520566735252170166
 GameObject:
   m_ObjectHideFlags: 0
@@ -904,6 +928,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   destroyOnClose: 1
   animator: {fileID: 186075430406125431}
+  musicOn: {fileID: 3309111210814943490}
+  musicOff: {fileID: 8514705548610352162}
+  soundOn: {fileID: 770856296758059398}
+  soundOff: {fileID: 520566735252170166}
 --- !u!1 &3918367997262482196
 GameObject:
   m_ObjectHideFlags: 0

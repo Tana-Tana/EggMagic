@@ -26,6 +26,16 @@ public class GamePlayController : Singleton<GamePlayController>
     {
         Application.targetFrameRate = GameConfig.FPS;
         _bestScore = GamePrefs.GetHighScore();
+        SoundController.Instance.PlayOneShotAudio(GameConfig.START_GAME_AUDIO);
+    }
+
+    public void Scoring(int score)
+    {
+        _score += score;
+        if (_score > _bestScore)
+        {
+            _bestScore = _score;
+        }
     }
 
 }

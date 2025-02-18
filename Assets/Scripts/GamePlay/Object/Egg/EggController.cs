@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Assets.Scripts.Common;
 using Assets.Scripts.GamePlay.Object.Egg;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UIElements;
-using static UnityEngine.Rendering.DebugUI.Table;
 using Random = UnityEngine.Random;
 
 public class EggController : MonoBehaviour
@@ -78,17 +74,44 @@ public class EggController : MonoBehaviour
 
     private async void Move(int rowSelection, int colSelection)
     {
+        Messenger.Broadcast(EventKey.OPEN_OVERLAYUI);
         // merge
         Dictionary<int, Dictionary<Egg, Egg>> dictRes = new Dictionary<int, Dictionary<Egg, Egg>>(); // lưu kết quả và thứ tự di chuyển
         SearchOrderOfMovement(rowSelection, colSelection, dictRes);
         await ActionOfEgg(dictRes, rowSelection, colSelection);
-        Debug.Log(eggPool.amoutPool());
+        //Debug.Log("Trong pool có: " + eggPool.amoutPool() + " trứng");
         // hạ
         Messenger.Broadcast(EventKey.RESET_ALL_TILES);
         // sinh trứng
         await DropEgg();
         // reset lại quan hệ cha con trứng đất
         Messenger.Broadcast(EventKey.SET_TYPE_TILE, eggs);
+        Messenger.Broadcast(EventKey.RESET_TIME_AND_UPDATE_SCORE);
+        CheckNoStep();
+        Messenger.Broadcast(EventKey.CLOSE_OVERLAYUI);
+    }
+    private void CheckNoStep()
+    {
+        for (int i = 1; i <= 5; ++i)
+        {
+            for (int j = 1; j <= 5; ++j)
+            {
+                if (eggs[i,j] != null)
+                {
+                    for (int z = 0;z<4;++z)
+                    {
+                        int row = i + dRow[z];
+                        int col = j + dCol[z];
+                        if (eggs[row,col] != null && eggs[row, col].Infor.Level.Equals(eggs[i, j].Infor.Level))
+                        {
+                            GamePlayController.Instance.checkNoNextStep = false;
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+        GamePlayController.Instance.checkNoNextStep = true;
     }
 
     private void SetEggOrigin()
@@ -113,35 +136,47 @@ public class EggController : MonoBehaviour
         bool[,] visited = new bool[10,10];
         for (int j = 1; j <= 5; ++j) // duyệt từng cột
         {
-            for (int i=5 ; i>= 5 - _amoutEggOfColumn[j] + 1;--i ) // rơi trứng
-            {
-                if (checkNullEgg[i,j])
-                {
-                    for (int k = i - 1; k >= 1; --k)
-                    {
-                        if (checkNullEgg[i,j] && !checkNullEgg[k,j] && !visited[k,j])
-                        {
-                            visited[k,j] = true;
-                            eggs[k, j].transform.DOMove(new Vector3(positionEgg[i, j].Key, positionEgg[i, j].Value, 0), 0.1f).SetEase(Ease.OutSine);
-                            eggs[i,j] = eggs[k, j];
-                            checkNullEgg[k, j] = true;
-                            checkNullEgg[i,j] = false;
-                        }
-                    }
-                }
-            }
-            for (int i = 5 - _amoutEggOfColumn[j]; i >= 1; --i) // lấy trứng từ pool
-            {
-                Egg egg = eggPool.GetObject();
-                eggs[i, j] = egg;
-                egg.transform.position = new Vector3(egg.transform.position.x + 0.8f * (j - 1), egg.transform.position.y, 0);
-                egg.transform.DOMove(new Vector3(positionEgg[i, j].Key, positionEgg[i, j].Value, 0), 0.1f).SetEase(Ease.OutSine);
-                checkNullEgg[i, j] = false;
-                eggPool.RemoveObject();
-            }
+            DropEggCurrent(_amoutEggOfColumn, visited, j);
+            GetEggFromPool(_amoutEggOfColumn, j);
         }
         SetEggOrigin();
         await UniTask.Delay(100);
+    }
+
+    private void GetEggFromPool(int[] _amoutEggOfColumn, int j)
+    {
+        for (int i = 5 - _amoutEggOfColumn[j]; i >= 1; --i)
+        {
+            Egg egg = eggPool.GetObject();
+            egg.SetRandomLevel();
+
+            eggs[i, j] = egg;
+            egg.transform.position = new Vector3(egg.transform.position.x + 0.8f * (j - 1), egg.transform.position.y, 0);
+            egg.transform.DOMove(new Vector3(positionEgg[i, j].Key, positionEgg[i, j].Value, 0), 0.1f).SetEase(Ease.OutSine);
+            checkNullEgg[i, j] = false;
+            eggPool.RemoveObject();
+        }
+    }
+
+    private void DropEggCurrent(int[] _amoutEggOfColumn, bool[,] visited, int j)
+    {
+        for (int i = 5; i >= 5 - _amoutEggOfColumn[j] + 1; --i)
+        {
+            if (checkNullEgg[i, j])
+            {
+                for (int k = i - 1; k >= 1; --k)
+                {
+                    if (checkNullEgg[i, j] && !checkNullEgg[k, j] && !visited[k, j])
+                    {
+                        visited[k, j] = true;
+                        eggs[k, j].transform.DOMove(new Vector3(positionEgg[i, j].Key, positionEgg[i, j].Value, 0), 0.1f).SetEase(Ease.OutSine);
+                        eggs[i, j] = eggs[k, j];
+                        checkNullEgg[k, j] = true;
+                        checkNullEgg[i, j] = false;
+                    }
+                }
+            }
+        }
     }
 
     private void SetNotParent()
@@ -201,16 +236,17 @@ public class EggController : MonoBehaviour
                                 .SetEase(Ease.OutSine)
                                 .OnComplete(() =>
                                 {
+                                    GamePlayController.Instance.Scoring((int)eggs[startPositionEgg.Row, startPositionEgg.Col].Type);
                                     eggs[startPositionEgg.Row, startPositionEgg.Col].gameObject.SetActive(false);
                                     eggs[startPositionEgg.Row, startPositionEgg.Col].transform.position = new Vector3(xEgg, yEgg, 0);
                                 });
                         }
-                        await UniTask.Delay(60);
+                        await UniTask.Delay(80);
                     }
                 }
             }
         }
-        await UniTask.Delay(40);
+        await UniTask.Delay(20);
         Messenger.Broadcast(EventKey.SET_PARENT_EGG_SELECTED, row, col, eggs);
         eggs[row, col].LevelUp();
     }

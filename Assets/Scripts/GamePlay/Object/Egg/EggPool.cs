@@ -17,7 +17,6 @@ public class EggPool
             Debug.Log("Pool rỗng rồi, lấy gì rơi");
             return null;
         }
-        poolEggs[0].gameObject.SetActive(true);
         return poolEggs[0];
     }
 

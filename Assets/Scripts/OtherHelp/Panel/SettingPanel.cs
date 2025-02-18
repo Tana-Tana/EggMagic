@@ -6,10 +6,16 @@ using UnityEngine;
 public class SettingPanel : Panel
 {
     [SerializeField] private Animator animator;
+    [SerializeField] private GameObject musicOn;
+    [SerializeField] private GameObject musicOff;
+    [SerializeField] private GameObject soundOn;
+    [SerializeField] private GameObject soundOff;
 
     private AnimatorStateInfo _animatorStateInfo;
     private void Start()
     {
+        SoundController.Instance.PlayOneShotAudio(GameConfig.OPEN_POPUP_AUDIO);
+        LoadMusicAndSoundStatus();
         _animatorStateInfo = animator.GetCurrentAnimatorStateInfo(0);
 
         if(GamePlayController.Instance != null)
@@ -23,9 +29,35 @@ public class SettingPanel : Panel
         }
     }
 
+    private void LoadMusicAndSoundStatus()
+    {
+        if(GamePrefs.GetMusic() == 1)
+        {
+            musicOn.SetActive(true);
+            musicOff.SetActive(false);
+        }
+        else
+        {
+            musicOn.SetActive(false);
+            musicOff.SetActive(true);
+        }
+
+        if(GamePrefs.GetSound() == 1)
+        {
+            soundOn.SetActive(true); 
+            soundOff.SetActive(false);
+        }
+        else
+        {
+            soundOn.SetActive(false);
+            soundOff.SetActive(true);
+        }
+    }
+
     public async void Back()
     {
-        if(GamePlayController.Instance != null)
+        SoundController.Instance.PlayOneShotAudio(GameConfig.TAP_AUDIO);
+        if (GamePlayController.Instance != null)
         {
             GamePlayController.Instance.checkContinue = true;
         }
@@ -35,13 +67,13 @@ public class SettingPanel : Panel
             Messenger.Broadcast<float>(EventKey.SHOW_BOTTOM_AND_PUSH_UP_TITLE, _animatorStateInfo.length);
             await Task.Delay((int)(_animatorStateInfo.length*1000));
         }
-
         PanelManager.Instance.ClosePanel(GameConfig.SETTING_PANEL);
     }
 
     public void OpenFacebookLink()
     {
-        if(!string.IsNullOrEmpty(GameConfig.FACEBOOK_LINK))
+        SoundController.Instance.PlayOneShotAudio(GameConfig.TAP_AUDIO);
+        if (!string.IsNullOrEmpty(GameConfig.FACEBOOK_LINK))
         {
             Application.OpenURL(GameConfig.FACEBOOK_LINK);
         }
@@ -53,7 +85,9 @@ public class SettingPanel : Panel
 
     public void OpenGithubLink()
     {
-        if(!string.IsNullOrEmpty (GameConfig.GITHUB_LINK))
+        SoundController.Instance.PlayOneShotAudio(GameConfig.TAP_AUDIO);
+
+        if (!string.IsNullOrEmpty (GameConfig.GITHUB_LINK))
         {
             Application.OpenURL (GameConfig.GITHUB_LINK);
         }
@@ -65,7 +99,9 @@ public class SettingPanel : Panel
 
     public void OpenGroupLink()
     {
-        if(!string.IsNullOrEmpty(GameConfig.GROUP_LINK))
+        SoundController.Instance.PlayOneShotAudio(GameConfig.TAP_AUDIO);
+
+        if (!string.IsNullOrEmpty(GameConfig.GROUP_LINK))
         {
             Application.OpenURL(GameConfig.GROUP_LINK);
         }
@@ -73,5 +109,43 @@ public class SettingPanel : Panel
         {
             Debug.Log("Lỗi link Group");
         }
+    }
+
+    public void SetStatusSound()
+    {
+        SoundController.Instance.PlayOneShotAudio(GameConfig.TAP_AUDIO);
+        //
+        if (soundOn.activeSelf)
+        {
+            soundOn.SetActive(false);
+            soundOff.SetActive(true);
+            GamePrefs.SetSound(0);
+        }
+        else
+        {
+            soundOn.SetActive(true);
+            soundOff.SetActive(false);
+            GamePrefs.SetSound(1);
+        }
+        SoundController.Instance.ChangeStatusSound();
+    }
+
+    public void SetStatusMusic()
+    {
+        SoundController.Instance.PlayOneShotAudio(GameConfig.TAP_AUDIO);
+        //
+        if (musicOn.activeSelf)
+        {
+            musicOn.SetActive(false);
+            musicOff.SetActive(true);
+            GamePrefs.SetMusic(0);
+        }
+        else
+        {
+            musicOn.SetActive(true);
+            musicOff.SetActive(false);
+            GamePrefs.SetMusic(1);
+        }
+        SoundController.Instance.ChangeStatusMusic();
     }
 }
