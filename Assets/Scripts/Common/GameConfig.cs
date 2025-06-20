@@ -4,7 +4,7 @@ namespace Assets.Scripts.Common
     public static class GameConfig
     {
         //fps
-        public const int FPS = 60;
+        public const int FPS = 120;
 
         // path
         public const string EGG_INFOR_PATH = "EggsLevel/";
